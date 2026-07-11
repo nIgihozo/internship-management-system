@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-export default function loginPage() {
+export default function ForgotPasswordPage() {
     const router = useRouter();
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false); 
+    const [newPassword, setNewPassword] = useState(""); 
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
 
     {/* Color Themes */}
@@ -14,17 +14,22 @@ export default function loginPage() {
     const SKY_BLUE = "#00b4d8";
     const LIGHT_SKY = "#e0f2fe";
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleResetPassword = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
-        if (!email || !password) {
+        if (!email || !newPassword || !confirmPassword) {
             setError("Please fill in all fields.");
             return;
         }
 
-        alert(`Logged in successfully! Remember Me: ${rememberMe}. Redirecting to home page...`);
-        router.push("/page");
+        if (newPassword !== confirmPassword) {
+            setError("Passwords do not match.");
+            return;
+        }
+
+        alert(`Password reset successfully!. Redirecting to login page...`);
+        router.push("/login");
     };
 
     return (
@@ -57,13 +62,13 @@ export default function loginPage() {
                     
                 </div>
             </div>
-            {/* THE LOGIN FORM */}
+            {/* THE RESET PASSWORD FORM */}
             <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px 60px" }}>
                 <div style={{ width: "100%", maxWidth: "450px" }}>
                     
                     <div style={{ marginBottom: "30px" }}>
-                        <h2 style={{ fontSize: "32px", fontWeight: "800", color: DARK_BLUE, marginBottom: "8px" }}>Login</h2>
-                        <p style={{ color: "#666", fontSize: "15px" }}>Welcome Back, We are happy to have you again.</p>
+                        <h2 style={{ fontSize: "32px", fontWeight: "800", color: DARK_BLUE, marginBottom: "8px" }}>Reset Password</h2>
+                        <p style={{ color: "#666", fontSize: "15px" }}>Enter your registered email address to reset your password.</p>
                     </div>
                     
                     {error && (
@@ -71,7 +76,7 @@ export default function loginPage() {
                             {error}
                         </div>
                     )}
-                    <form onSubmit={handleLogin} style={{ width: "100%" }}>
+                    <form onSubmit={handleResetPassword} style={{ width: "100%" }}>
                         <div style={{ marginBottom: "14px" }}>
                             <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Email Address</label>
                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="yourname@gmail.com" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
@@ -79,20 +84,19 @@ export default function loginPage() {
 
                         <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
                             <div style={{ flex: 1 }}>
-                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Password</label>
-                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
+                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>New Password</label>
+                                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
                             </div>
                             </div>
-                        
-                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px", fontSize: "14px" }}>
-                            <label style={{ display: "flex", alignItems: "center", cursor: "pointer" }}>
-                                <input type="checkbox" checked={rememberMe} onChange={(e) => setRememberMe(e.target.checked)} style={{ marginRight: "8px" }} />
-                                Remember Me
-                            </label>
-                            <span onClick={() => router.push("/forgot-password")} style={{ color: SKY_BLUE, cursor: "pointer", textDecoration: "underline", fontWeight: "600" }}>Forgot Password?</span>
-                        </div>
+                            <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
+                            <div style={{ flex: 1 }}>
+                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Confirm Password</label>
+                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
+                            </div>
+                            </div>
+                
                             <button type="submit" style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" }}>
-                            Login
+                            Reset Password
                         </button>
                     </form>
                     <p style={{ marginTop: "25px", fontSize: "14px", textAlign: "center", color: "#555" }}>
