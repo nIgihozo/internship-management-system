@@ -153,6 +153,10 @@ export default function RegisterPage() {
                                     <input type="text" value={tvetStudentId} onChange={(e) => setTvetStudentId(e.target.value)} placeholder="your student id" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
+                                    <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>School Name</label>
+                                    <input type="text" value={schoolName} onChange={(e) => setSchoolName(e.target.value)} placeholder="e.g., Kigali School" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                </div>
+                                <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Course Area / Trade</label>
                                     <input type="text" value={courseArea} placeholder="e.g., Software Development" onChange={(e) => setCourseArea(e.target.value)} style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
                                 </div>

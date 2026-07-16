@@ -1,65 +1,69 @@
-import Image from "next/image";
+"use client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    const router = useRouter();
+
+    const DARK_BLUE = "#002855";
+    const SKY_BLUE = "#00b4d8";
+
+    return (
+        <div style={{ 
+            display: "flex", 
+            minHeight: "100vh", 
+            backgroundColor: DARK_BLUE, 
+            flexDirection: "column",
+            justifyContent: "center", 
+            alignItems: "center", 
+            padding: "40px", 
+            color: "#ffffff", 
+            textAlign: "center", 
+            position: "relative", 
+            overflow: "hidden",
+            fontFamily: "sans-serif"
+        }}>
+            {/* Background Decorative Elements */}
+            <div style={{ position: "absolute", top: "-10%", left: "-10%", width: "400px", height: "400px", borderRadius: "50%", background: `linear-gradient(135deg, ${SKY_BLUE}, transparent)`, opacity: 0.15 }}></div>
+            <div style={{ position: "absolute", bottom: "-5%", right: "-5%", width: "250px", height: "250px", borderRadius: "50%", background: SKY_BLUE, opacity: 0.1, filter: "blur(40px)" }}></div>
+            
+            <div style={{ maxWidth: "500px", zIndex: 1 }}>
+                {/* Under Construction Icon */}
+                <div style={{ display: "inline-flex", padding: "16px", borderRadius: "20px", backgroundColor: "rgba(255, 255, 255, 0.08)", marginBottom: "30px", border: "1px solid rgba(255,255,255,0.15)" }}>
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke={SKY_BLUE} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="6" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                </div>
+
+                <h1 style={{ fontSize: "36px", fontWeight: "800", marginBottom: "16px", lineHeight: "1.2", letterSpacing: "-0.5px" }}>
+                    This page is still in <span style={{ color: SKY_BLUE }}>Progress</span>
+                </h1>
+                
+                <p style={{ fontSize: "16px", color: "#e0f2fe", lineHeight: "1.6", marginBottom: "35px", opacity: 0.85 }}>
+                    Coming Soon... We are hard at work building this section of the platform to streamline your experience.
+                </p>
+
+                {/* Back to Login Action */}
+                <button 
+                    onClick={() => router.push("/login")} 
+                    style={{ 
+                        padding: "12px 28px", 
+                        background: "rgba(255, 255, 255, 0.1)", 
+                        color: "#fff", 
+                        border: "1px solid rgba(255,255,255,0.2)", 
+                        borderRadius: "30px", 
+                        cursor: "pointer", 
+                        fontWeight: "600", 
+                        fontSize: "14px",
+                        transition: "background 0.2s"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.15)"}
+                    onMouseLeave={(e) => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.1)"}
+                >
+                    ← Back to Login
+                </button>
+            </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    );
 }
