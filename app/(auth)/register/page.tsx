@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { registerStudent, registerCompany, registerSupervisor } from '@/lib/auth';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -10,6 +11,7 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     
     // Core details states
     const [fullName, setFullName] = useState("");
@@ -22,6 +24,7 @@ export default function RegisterPage() {
     const [companyContact, setCompanyContact] = useState("");
     const [schoolName, setSchoolName] = useState("");
     const [department, setDepartment] = useState("");
+    
 
     // Colors for styling and branding
     const DARK_BLUE = "#002855";
@@ -57,8 +60,42 @@ export default function RegisterPage() {
             return;
         }
 
-        alert(`Account created successfully for ${role}! Redirecting to login page...`);
-        router.push("/login");
+        setLoading(true);
+
+        try {
+            let data;
+
+            if (role === 'student') {
+                data = await registerStudent({
+                    email, password, password2: confirmPassword,
+                    full_name: fullName, tvetstudent_id: tvetStudentId,
+                    course_area: courseArea, school_name: schoolName,
+                });
+            } else if (role === 'company') {
+                data = await registerCompany({
+                    email, password, password2: confirmPassword,
+                    company_representative_name: fullName,
+                    company_name: companyName, company_sector: companySector,
+                    rdb_registration_number: rdbNumber, company_address: companyLocation,
+                });
+            } else if (role === 'supervisor') {
+                data = await registerSupervisor({
+                    email, password, password2: confirmPassword,
+                    full_name: fullName, school_name: schoolName, department,
+                });
+            }
+
+            localStorage.setItem('access_token', data.token.access);
+            localStorage.setItem('refresh_token', data.token.refresh);
+
+            alert('Account created successfully!');
+            router.push('/login');
+        } catch (err: any) {
+            console.error("Registration error:", err);
+            setError(err.data?.email?.[0] || err.data?.password?.[0] || 'Registration failed. Please try again.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -209,8 +246,8 @@ export default function RegisterPage() {
                             </>
                         )}
 
-                        <button type="submit" style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" }}>
-                            Sign Up
+                        <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: loading ? "not-allowed": "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" , opacity: loading ? 0.7 : 1}}>
+                            {loading ? "Creating Account..." : "Sign Up"}
                         </button>
                     </form>
 

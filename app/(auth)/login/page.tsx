@@ -1,6 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { login } from "@/lib/auth"
+
 
 export default function loginPage() {
     const router = useRouter();
@@ -8,6 +10,7 @@ export default function loginPage() {
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false); 
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     {/* Color Themes */}
     const DARK_BLUE = "#002855";
@@ -23,8 +26,19 @@ export default function loginPage() {
             return;
         }
 
-        alert(`Logged in successfully! Remember Me: ${rememberMe}. Redirecting to home page...`);
-        router.push("/page");
+        setLoading(true);
+
+        try {
+            const data = await login(email, password);
+            localStorage.setItem('access_token', data.token.access);
+            localStorage.setItem('refresh_token', data.token.refresh);
+            alert(`Logged in successfully! Redirecting to home page...`);
+            router.push("/dashboard");
+        } catch (err: any) {
+            setError(err.data?.error || 'Invalid email or password.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -91,8 +105,8 @@ export default function loginPage() {
                             </label>
                             <span onClick={() => router.push("/forgot-password")} style={{ color: SKY_BLUE, cursor: "pointer", textDecoration: "underline", fontWeight: "600" }}>Forgot Password?</span>
                         </div>
-                            <button type="submit" style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" }}>
-                            Login
+                            <button type="submit" disabled = {loading} style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: loading ? "not-allowed": "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px", opacity: loading ? 0.7 : 1 }}>
+                            {loading ? "Logging In..." : "Login"}
                         </button>
                     </form>
                     <p style={{ marginTop: "25px", fontSize: "14px", textAlign: "center", color: "#555" }}>
