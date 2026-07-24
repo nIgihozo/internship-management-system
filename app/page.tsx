@@ -6,6 +6,7 @@ export default function Home() {
 
     const DARK_BLUE = "#002855";
     const SKY_BLUE = "#00b4d8";
+     const LIGHT_SKY = "#e0f2fe";
 
     return (
         <div style={{ 

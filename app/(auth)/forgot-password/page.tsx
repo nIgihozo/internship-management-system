@@ -1,13 +1,14 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import {forgotPassword} from "@/lib/auth";
 
 export default function ForgotPasswordPage() {
     const router = useRouter();
     const [email, setEmail] = useState("");
-    const [newPassword, setNewPassword] = useState(""); 
-    const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     {/* Color Themes */}
     const DARK_BLUE = "#002855";
@@ -17,19 +18,27 @@ export default function ForgotPasswordPage() {
     const handleResetPassword = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+        setMessage("");
 
-        if (!email || !newPassword || !confirmPassword) {
-            setError("Please fill in all fields.");
-            return;
+        if (!email) {
+            setError("Please enter your email.")
         }
+        
+        setLoading(true);
 
-        if (newPassword !== confirmPassword) {
-            setError("Passwords do not match.");
-            return;
+        try {
+            const res = await forgotPassword(email);
+            setMessage(res.message || "Reset link for changing password has been sent to your email. Check it out!");
+
+            setTimeout(() => {
+                router.push("/reset-password");
+            }, 3000);
+
+        } catch (err: any) {
+            setError(err.message || "Failed to send reset link.")
+        } finally {
+            setLoading(false);
         }
-
-        alert(`Password reset successfully!. Redirecting to login page...`);
-        router.push("/login");
     };
 
     return (
@@ -62,45 +71,45 @@ export default function ForgotPasswordPage() {
                     
                 </div>
             </div>
-            {/* THE RESET PASSWORD FORM */}
+            {/* THE FORGOT PASSWORD FORM */}
             <div style={{ flex: "1", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", padding: "40px 60px" }}>
                 <div style={{ width: "100%", maxWidth: "450px" }}>
                     
                     <div style={{ marginBottom: "30px" }}>
-                        <h2 style={{ fontSize: "32px", fontWeight: "800", color: DARK_BLUE, marginBottom: "8px" }}>Reset Password</h2>
-                        <p style={{ color: "#666", fontSize: "15px" }}>Enter your registered email address to reset your password.</p>
+                        <h2 style={{ fontSize: "32px", fontWeight: "800", color: DARK_BLUE, marginBottom: "8px" }}>Forgot Password</h2>
+                        <p style={{ color: "#666", fontSize: "15px" }}>Enter your registered email address to receive reset link.</p>
                     </div>
                     
-                    {error && (
-                        <div style={{ color: "red", backgroundColor: "#ffebee", padding: "12px", borderRadius: "6px", marginBottom: "20px", fontWeight: "600", fontSize: "14px", border: "1px solid #ffcdd2" }}>
+                    {/* Error Message if the reset password link not delivered */}
+                    {error && error.trim().length > 0 && (
+                        <div style={{ color: "red", backgroundColor: "#ffebee", padding: "12px", borderRadius: "6px", marginBottom: "20px", border: "1px solid #ffcdd2" }}>
                             {error}
-                        </div>
+                            </div>
+                        )}
+                    
+                    {/* Success Message if reset password link delivered */}
+                    {message && message.trim().length > 0 && (
+                        <div style={{ color: "green", backgroundColor: "white", padding: "12px", borderRadius: "6px", marginBottom: "20px", border: "1px solid green" }}>
+                            {message}
+                            </div>
                     )}
+                     
+                     {/* Handle reset submission form */}
                     <form onSubmit={handleResetPassword} style={{ width: "100%" }}>
                         <div style={{ marginBottom: "14px" }}>
                             <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Email Address</label>
                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="yourname@gmail.com" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
                         </div>
-
-                        <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>New Password</label>
-                                <input type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
-                            </div>
-                            </div>
-                            <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Confirm Password</label>
-                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
-                            </div>
-                            </div>
-                
-                            <button type="submit" style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" }}>
-                            Reset Password
+                           
+                            {/* Reset Password Button */}
+                            <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: loading ? "not-allowed" : "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px", opacity: loading ? 0.6 : 1}}>
+                            {loading ? "Sending link...": "Send Reset Link"}
                         </button>
                     </form>
+
+                    {/* Redirecting to login page if user remembered password*/}
                     <p style={{ marginTop: "25px", fontSize: "14px", textAlign: "center", color: "#555" }}>
-                        Don't have an account? <span onClick={() => router.push("/register")} style={{ color: SKY_BLUE, cursor: "pointer", textDecoration: "underline", fontWeight: "600" }}>Register here</span>
+                        Remembered Your Password? <span onClick={() => router.push("/login")} style={{ color: SKY_BLUE, cursor: "pointer", textDecoration: "underline", fontWeight: "600" }}>Login here</span>
                     </p>
                     </div>
             </div>

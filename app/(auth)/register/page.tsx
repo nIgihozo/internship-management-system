@@ -11,13 +11,16 @@ export default function RegisterPage() {
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
     
     // Core details states
     const [fullName, setFullName] = useState("");
     const [tvetStudentId, setTvetStudentId] = useState("");
     const [courseArea, setCourseArea] = useState("");
+    const [level, setLevel] = useState("");
     const [companyName, setCompanyName] = useState("");
+    const [representativeRole, setRepresentativeRole] = useState("");
     const [rdbNumber, setRdbNumber] = useState("");
     const [companySector, setCompanySector] = useState("");
     const [companyLocation, setCompanyLocation] = useState("");
@@ -33,71 +36,106 @@ export default function RegisterPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setFieldErrors({});
         setError("");
 
-        if (!email || !password || !confirmPassword) {
-            setError("Email and password fields are required");
-            return;
+        
+        const newErrors: Record<string, string> = {};
+
+        {/* Error messages for General Registration */}
+        if (!email) newErrors.email = "Email is Required";
+        if (!password) newErrors.password = "Password is Required";
+        if (!confirmPassword) newErrors.confirmPassword = "Please confirm your password";
+        if (password && confirmPassword && password !== confirmPassword) {
+            newErrors.confirmPassword = "Passwords do not match. Insert same password again!"
+        }
+        
+        {/* Error messages for Student Profile Registration */}
+        if (role === "student") {
+            if (!fullName) newErrors.fullName = "Full Name is Required";
+            if (!tvetStudentId) newErrors.tvetStudentId = "Student ID is Required";
+            if (!schoolName) newErrors.schoolName = "School Name is Required";
+            if (!courseArea) newErrors.courseArea = "Course Area is Required";
+            
+        }
+        
+        {/* Error messages for Supervisor Profile Registration */}
+        if (role === "supervisor") {
+            if (!fullName) newErrors.fullName = "Full Name is Required";
+            if (!schoolName) newErrors.schoolName = "School Name is Required";
+            if (!department) newErrors.department = "Department is Required";
         }
 
-        if (password !== confirmPassword) {
-            setError("Passwords do not match");
-            return;
+        {/* Error messages for Company Profile Registration */}
+        if (role === "company") {
+            if (!fullName) newErrors.fullName = "Full Name is Required";
+            if (!companyName) newErrors.companyName = "Company Name is Required";
+            if (!representativeRole) newErrors.representativeRole = "Representative Role is Required";
+            if (!rdbNumber) newErrors.rdbNumber = "RDB Number is Required";
+            if (!companySector) newErrors.companySector = "Company Sector is Required";
+            if (!companyLocation) newErrors.companyLocation = "Company Location is Required";
+            if (!companyContact) newErrors.companyContact = "Company Contact is Required";
         }
-
-        if (role === "student" && (!fullName || !tvetStudentId || !courseArea)) {
-            setError("All student fields are required");
-            return;
+        if (Object.keys(newErrors).length > 0) {
+            setFieldErrors(newErrors);
+            return
         }
-
-        if (role === "company" && (!fullName || !companyName || !rdbNumber || !companySector || !companyLocation || !companyContact)) {
-            setError("All company fields are required");
-            return;
-        }
-
-        if (role === "supervisor" && (!fullName || !schoolName || !department )) {
-            setError("All supervisor fields are required");
-            return;
-        }
-
         setLoading(true);
 
-        try {
-            let data;
+          try {
+        let data;
 
-            if (role === 'student') {
-                data = await registerStudent({
-                    email, password, password2: confirmPassword,
-                    full_name: fullName, tvetstudent_id: tvetStudentId,
-                    course_area: courseArea, school_name: schoolName,
-                });
-            } else if (role === 'company') {
-                data = await registerCompany({
-                    email, password, password2: confirmPassword,
-                    company_representative_name: fullName,
-                    company_name: companyName, company_sector: companySector,
-                    rdb_registration_number: rdbNumber, company_address: companyLocation,
-                });
-            } else if (role === 'supervisor') {
-                data = await registerSupervisor({
-                    email, password, password2: confirmPassword,
-                    full_name: fullName, school_name: schoolName, department,
-                });
-            }
-
-            localStorage.setItem('access_token', data.token.access);
-            localStorage.setItem('refresh_token', data.token.refresh);
-
-            alert('Account created successfully!');
-            router.push('/login');
-        } catch (err: any) {
-            console.error("Registration error:", err);
-            setError(err.data?.email?.[0] || err.data?.password?.[0] || 'Registration failed. Please try again.');
-        } finally {
-            setLoading(false);
+        if (role === 'student') {
+            data = await registerStudent({
+                email, password, password2: confirmPassword,
+                full_name: fullName, tvetstudent_id: tvetStudentId,
+                course_area: courseArea, school_name: schoolName,
+                level: level,
+            });
+        } else if (role === 'company') {
+            data = await registerCompany({
+                email, password, password2: confirmPassword,
+                company_representative_name: fullName,
+                company_name: companyName, company_sector: companySector,
+                rdb_registration_number: rdbNumber, company_address: companyLocation,
+                representative_role: representativeRole,
+            });
+        } else if (role === 'supervisor') {
+            data = await registerSupervisor({
+                email, password, password2: confirmPassword,
+                full_name: fullName, school_name: schoolName, department,
+            });
         }
-    };
 
+        localStorage.setItem('access_token', data.token.access);
+        localStorage.setItem('refresh_token', data.token.refresh);
+
+        alert('Account created successfully!');
+        router.push('/login');
+    } catch (err: any) {
+        console.error("Registration error:", err);
+
+        if (err.data && typeof err.data === 'object') {
+            const backendErrors: Record<string, string> = {};
+            for (const key in err.data) {
+                const message = Array.isArray(err.data[key]) ? err.data[key][0] : err.data[key];
+                backendErrors[key] = message;
+            }
+            setFieldErrors(backendErrors);
+        } else {
+            setError('Registration failed. Please check your connection and try again.');
+        }
+    } finally {
+        setLoading(false);
+    }
+};
+
+const FieldError = ({ field }: { field: string }) => 
+    fieldErrors[field] ? (
+        <p style={{ color: "#d32f2f", fontSize: "13px", marginTop: "4px", marginBottom: "0" }}>
+            {fieldErrors[field]}
+        </p>
+    ) : null;
     return (
         <div style={{ display: "flex", minHeight: "100vh", backgroundColor: "#ffffff" }}>
             
@@ -159,16 +197,19 @@ export default function RegisterPage() {
                         <div style={{ marginBottom: "14px" }}>
                             <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Email Address</label>
                             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="yourname@gmail.com" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
+                             <FieldError field="email" />
                         </div>
 
                         <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Password</label>
                                 <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
+                                 <FieldError field="password" />
                             </div>
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Confirm Password</label>
                                 <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
+                                 <FieldError field="confirmPassword" />
                             </div>
                         </div>
 
@@ -179,78 +220,110 @@ export default function RegisterPage() {
                         </div>
 
                         {/* Profile Inputs Section */}
+                        
+                        {/* Student Profile Registration */}
                         {role === "student" && (
                             <>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Full Name</label>
                                     <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Enter full name" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="fullName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>TVET Student ID</label>
                                     <input type="text" value={tvetStudentId} onChange={(e) => setTvetStudentId(e.target.value)} placeholder="your student id" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="tvetStudentId" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>School Name</label>
                                     <input type="text" value={schoolName} onChange={(e) => setSchoolName(e.target.value)} placeholder="e.g., Kigali School" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="schoolName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Course Area / Trade</label>
                                     <input type="text" value={courseArea} placeholder="e.g., Software Development" onChange={(e) => setCourseArea(e.target.value)} style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="courseArea" />
+                                </div>
+                                <div style={{ marginBottom: "14px" }}>
+                                    <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Level</label>
+                                    <select value={level} onChange={(e: any) => { setLevel(e.target.value); setError(""); }} style={{ width: "100%", padding: "12px", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", backgroundColor: "#fff", color: DARK_BLUE, outline: "none" }}>
+                                        <option value="level 3">Level 3</option>
+                                        <option value="level 4">Level 4</option>
+                                        <option value="Level 5">Level 5</option>
+                                        </select>
                                 </div>
                             </>
                         )}
-
+                        
+                        {/* Company Profile Registration */}
                         {role === "company" && (
                             <>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Company Representative Name</label>
                                     <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Enter your full name" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="fullName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Company Name</label>
                                     <input type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Company registered name" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="companyName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Company Sector</label>
                                     <input type="text" value={companySector} onChange={(e) => setCompanySector(e.target.value)} placeholder="e.g., EdTech" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="companySector" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>RDB Registration Number</label>
                                     <input type="text" value={rdbNumber} onChange={(e) => setRdbNumber(e.target.value)} placeholder="e.g., RDB/12345/2026" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="rdbNumber" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Company Location</label>
                                     <input type="text" value={companyLocation} onChange={(e) => setCompanyLocation(e.target.value)} placeholder="e.g., Kigali, Rwanda" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="companyLocation" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Company Contact</label>
                                     <input type="text" value={companyContact} onChange={(e) => setCompanyContact(e.target.value)} placeholder="e.g., companyname@gmail.com" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="companyContact" />
+                                </div>
+                                 <div style={{ marginBottom: "14px" }}>
+                                    <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Representative Role</label>
+                                    <input type="text" value={representativeRole} onChange={(e) => setRepresentativeRole(e.target.value)} placeholder="e.g., Cheif Operating Officer" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="representativeRole" />
                                 </div>
                             </>
                         )}
 
+                       {/* Supervisor Profile Registration */}
                         {role === "supervisor" && (
                             <>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Full Name</label>
                                     <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} placeholder="Enter full name" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="fullName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>School Name</label>
                                     <input type="text" value={schoolName} onChange={(e) => setSchoolName(e.target.value)} placeholder="e.g., Kigali School" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="schoolName" />
                                 </div>
                                 <div style={{ marginBottom: "14px" }}>
                                     <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Department</label>
                                     <input type="text" value={department} onChange={(e) => setDepartment(e.target.value)} placeholder="e.g., Teacher's Department" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}` }} />
+                                     <FieldError field="department" />
                                 </div>
                             </>
                         )}
 
+                       {/* Signup button */}
                         <button type="submit" disabled={loading} style={{ width: "100%", padding: "14px", background: DARK_BLUE, color: "#fff", border: "none", borderRadius: "6px", cursor: loading ? "not-allowed": "pointer", fontWeight: "bold", fontSize: "16px", marginTop: "15px" , opacity: loading ? 0.7 : 1}}>
                             {loading ? "Creating Account..." : "Sign Up"}
                         </button>
                     </form>
-
+                     
+                     {/* Redirecting to login page if user already have account */}
                     <p style={{ marginTop: "25px", fontSize: "14px", textAlign: "center", color: "#555" }}>
                         Already have an account? <span onClick={() => router.push("/login")} style={{ color: SKY_BLUE, cursor: "pointer", textDecoration: "underline", fontWeight: "600" }}>Login here</span>
                     </p>

@@ -27,3 +27,22 @@ export function login(email, password) {
         body: JSON.stringify({ email, password }),
     });
 }
+
+export function forgotPassword(email) {
+    return apiRequest('/forgot-password/', {
+        method: 'POST',
+        body: JSON.stringify({email}),
+    });
+}
+
+export function resetPassword(email, token, newPassword, confirmPassword) {
+    return apiRequest('/reset-password/', {
+        method: 'POST',
+        body: JSON.stringify({ 
+            email: email,
+            token: token,
+            new_password: newPassword, 
+            confirm_password: confirmPassword
+        }),
+    });
+}
