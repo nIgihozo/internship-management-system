@@ -41,7 +41,7 @@ export default function loginPage() {
             localStorage.setItem('access_token', data.token.access);
             localStorage.setItem('refresh_token', data.token.refresh);
             alert(`Logged in successfully! Redirecting to home page...`);
-            router.push("/dashboard");
+            router.push("/dashboard/student");
         } catch (err: any) {
             setError(err.data?.error || 'Invalid email or password.');
         } finally {

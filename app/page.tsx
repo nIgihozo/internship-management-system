@@ -1,11 +1,11 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link"
-import React from 'react'
+
 
    const DARK_BLUE = "#002855";
-    const SKY_BLUE = "#00b4d8";
-     const LIGHT_SKY = "#e0f2fe";
+   const SKY_BLUE = "#00b4d8";
+   const LIGHT_SKY = "#e0f2fe";
 
 
 export default function Home() {
@@ -43,17 +43,17 @@ export default function Home() {
                         Internship Management Platform
                     </h1>
                     <p style={{ fontSize: "15px", color: LIGHT_SKY, lineHeight: "1.5", marginBottom: "35px" }}>
-                        Connecting TVET student with verified company to secure their internship while allowing thier school supervisor to be with them remotely. Ensuring smooth communication while providing quality education to our students.
+                        Connecting TVET students with verified company to secure their internships while allowing thier school supervisor to be with them remotely. Ensuring smooth communication while providing quality education to our students.
                     </p>
                     <p style={{ fontSize: "14px", color: LIGHT_SKY, fontWeight: "bold", lineHeight: "1.5", marginBottom: "50px", marginTop: "20px"}}>
                         Ready to start your journey with us?
                     </p>
 
                     <div style={{ display: "flex", justifyContent: "center", gap: "10px", marginTop: "10px"}}>
-                        <Link href="/register" style={{ backgroundColor: SKY_BLUE, color: "#fff", padding: "14px 20px", borderRadius: "6px", fontWeight: "bold", fontSize: "16px", textDecoration: "none"}}>
+                        <Link href="/register" style={{ backgroundColor: SKY_BLUE, color: "#fff", padding: "14px 20px", borderRadius: "6px", fontWeight: "bold", fontSize: "14px", textDecoration: "none"}}>
                         Start Here
                         </Link>
-                        <Link href="/login" style={{ backgroundColor: "transparent", color: "#fff", padding: "14px 20px", borderRadius: "6px", fontWeight: "bold", fontSize: "16px", textDecoration: "none"}}>
+                        <Link href="/login" style={{ backgroundColor: "transparent", color: "#fff", padding: "14px 20px", borderRadius: "6px", fontWeight: "bold", fontSize: "14px", textDecoration: "none"}}>
                         Portal Login
                         </Link>
                     </div>
