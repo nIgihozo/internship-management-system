@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { registerStudent, registerCompany, registerSupervisor } from '@/lib/auth';
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -13,6 +14,8 @@ export default function RegisterPage() {
     const [error, setError] = useState("");
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     
     // Core details states
     const [fullName, setFullName] = useState("");
@@ -200,18 +203,48 @@ const FieldError = ({ field }: { field: string }) =>
                              <FieldError field="email" />
                         </div>
 
-                        <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Password</label>
-                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
-                                 <FieldError field="password" />
-                            </div>
-                            <div style={{ flex: 1 }}>
-                                <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Confirm Password</label>
-                                <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="••••••••" style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }} />
-                                 <FieldError field="confirmPassword" />
-                            </div>
-                        </div>
+                        
+<div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
+    <div style={{ flex: 1 }}>
+        <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Password</label>
+        <div style={{ position: "relative" }}>
+            <input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                style={{ width: "100%", padding: "12px", paddingRight: "40px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }}
+            />
+            <span
+                onClick={() => setShowPassword(!showPassword)}
+                style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#888" }}
+            >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </span>
+        </div>
+        <FieldError field="password" />
+    </div>
+    
+    <div style={{ flex: 1 }}>
+        <label style={{ display: "block", marginBottom: "6px", fontWeight: "600", color: DARK_BLUE }}>Confirm Password</label>
+        <div style={{ position: "relative" }}>
+            <input
+            type={showConfirmPassword ? "text" : "password"}
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            placeholder="••••••••"
+            style={{ width: "100%", padding: "12px", paddingRight: "40px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontSize: "15px", color: "#333" }}
+            />
+            <span
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", cursor: "pointer", color: "#888" }}
+            >
+                {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </span>
+                </div>
+                <FieldError field="confirmPassword" />
+                </div>
+                </div>
 
                         <div style={{ display: "flex", alignItems: "center", margin: "25px 0" }}>
                             <div style={{ flex: 1, height: "1px", background: LIGHT_SKY }}></div>
