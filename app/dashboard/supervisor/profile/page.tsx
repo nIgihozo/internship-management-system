@@ -2,31 +2,29 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getStudentProfile } from "@/lib/auth"; 
+import { getSupervisorProfile } from "@/lib/auth"; 
 
-interface StudentProfile {
+interface SupervisorProfile {
   id: number;
   email: string;
   full_name: string;
-  tvetstudent_id: string;
-  course_area: string;
-  level: string;
   school_name: string;
+  department: string;
 }
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
 const LIGHT_SKY = "#e0f2fe";
 
-export default function StudentProfilePage() {
+export default function SupervisorProfilePage() {
   const router = useRouter();
-  const [profile, setProfile] = useState<StudentProfile | null>(null);
+  const [profile, setProfile] = useState<SupervisorProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    getStudentProfile()
-      .then((data: StudentProfile) => {
+    getSupervisorProfile()
+      .then((data: SupervisorProfile) => {
         setProfile(data);
         setLoading(false);
       })
@@ -59,17 +57,15 @@ export default function StudentProfilePage() {
   const fields = [
     { label: "Email address", value: profile?.email },
     { label: "Full name", value: profile?.full_name },
-    { label: "TVET student ID", value: profile?.tvetstudent_id },
-    { label: "Course area", value: profile?.course_area },
-    { label: "Level", value: profile?.level },
     { label: "School name", value: profile?.school_name },
+    { label: "Department", value: profile?.department},
   ];
 
   return (
     <div style={{ padding: "2rem", maxWidth: "900px", margin: "0 auto" }} >
       <div style={{ marginBottom: "24px" }}>
-        <h1 style={{ fontSize: "24px", fontWeight: 700, color: DARK_BLUE, margin: "0 0 4px"}}>Student Profile</h1>
-        <p style={{ fontSize: "14px", color: "#666", margin: 0}}>Your personal and academic details</p>
+        <h1 style={{ fontSize: "24px", fontWeight: 700, color: DARK_BLUE, margin: "0 0 4px"}}>Supervisor Profile</h1>
+        <p style={{ fontSize: "14px", color: "#666", margin: 0}}>Your personal details</p>
       </div>
 
       {/* READ-ONLY PROFILE DISPLAY */}

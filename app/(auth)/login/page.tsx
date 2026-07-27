@@ -40,8 +40,20 @@ export default function loginPage() {
             const data = await login(email, password);
             localStorage.setItem('access_token', data.token.access);
             localStorage.setItem('refresh_token', data.token.refresh);
-            alert(`Logged in successfully! Redirecting to home page...`);
-            router.push("/dashboard/student");
+            localStorage.setItem('user_role', data.user.role);
+
+            const role = data.user.role;
+
+            if (role === 'STUDENT') {
+                router.push("/dashboard/student");
+            } else if (role === 'SUPERVISOR') {
+                router.push("/dashboard/supervisor/");
+            } else if (role === 'COMPANY') {
+                router.push("/dashboard/company");
+            } else {
+                router.push('/dashboard');
+            }
+            
         } catch (err: any) {
             setError(err.data?.error || 'Invalid email or password.');
         } finally {

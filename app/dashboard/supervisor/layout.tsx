@@ -7,16 +7,12 @@ const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
 
 const SIDENAV_ITEMS = [
-    { label: "Dashboard", href: "/dashboard/student", icon: LayoutDashboard },
-    { label: "Browser internships", href: "/dashboard/student/internship", icon: Search},
-    { label: "My applications", href: "/dashboard/student/application", icon: FileText},
-    { label: "Progress", href: "/dashboard/student/progress", icon: BarChart3},
-    { label: "Certificate", href: "/dashboard/student/certificate", icon: GraduationCap},
-    { label: "Notification", href: "/dashboard/student/notification", icon: Bell},
-    { label: "Profile", href: "/dashboard/student/profile", icon: User },
+    { label: "Dashboard", href: "/dashboard/supervisor", icon: LayoutDashboard },
+    { label: "Notification", href: "/dashboard/supervisor/notification", icon: Bell},
+    { label: "Profile", href: "/dashboard/supervisor/profile", icon: User },
 ]
 
-export default function StudentLayoutDashboard ({ children }: {children: React.ReactNode}) {
+export default function SupervisorLayoutDashboard ({ children }: {children: React.ReactNode}) {
     const pathname = usePathname();
     const router = useRouter();
 

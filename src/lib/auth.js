@@ -72,3 +72,54 @@ export async function getStudentProfile() {
   }
 }
   
+export async function getSupervisorProfile() {
+ const token = localStorage.getItem("accessToken") || localStorage.getItem("access_token");
+
+  if (!token) {
+    throw new Error("NO_TOKEN");
+  }
+
+  try {
+    return await apiRequest('/supervisor/profile/', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+  } catch (err) {
+    if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw new Error('FAILED_TO_FETCH');
+  }
+}
+  
+
+export async function getCompanyProfile() {
+ const token = localStorage.getItem("accessToken") || localStorage.getItem("access_token");
+
+  if (!token) {
+    throw new Error("NO_TOKEN");
+  }
+
+  try {
+    return await apiRequest('/company/profile/', {
+        method: 'GET',
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+  } catch (err) {
+    if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw new Error('FAILED_TO_FETCH');
+  }
+}
+  
