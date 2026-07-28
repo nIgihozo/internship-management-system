@@ -122,4 +122,65 @@ export async function getCompanyProfile() {
     throw new Error('FAILED_TO_FETCH');
   }
 }
+
+export async function internshipCreation(data) {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("accessToken");
+    if (!token) throw new Error("NO_TOKEN");
+
+    try {
+        return await apiRequest('/internships/', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: JSON.stringify(data),
+        })
+    } catch (err) {
+        if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw err;
+    }
+}
+
+export async function myInternship(data) {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("accessToken");
+    if (!token) throw new Error("NO_TOKEN");
+
+    try {
+        return await apiRequest('/internships/', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        })
+    } catch (err) {
+        if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw err;
+    }
+}
   
+
+export async function internshipBrowse() {
+     const token = localStorage.getItem("access_token") || localStorage.getItem("accessToken");
+    if (!token) throw new Error("NO_TOKEN");
+
+    try {
+        return await apiRequest('/internships/browse', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` },
+        })
+    } catch (err) {
+        if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw new Error('FAILED_TO_FETCH_INTERNSHIP')
+    }
+} 
