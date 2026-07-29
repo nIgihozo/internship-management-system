@@ -58,7 +58,7 @@ export default function SupervisorDashboardPage() {
   const stats = {
     studentNumber: 150,
     companies: 30,
-    pending: 0,
+
   };
 
   return (
@@ -79,15 +79,52 @@ export default function SupervisorDashboardPage() {
           <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Partner Companies</p>
           <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.companies}</p>
         </div>
-        <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Pending</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.pending}</p>
-        </div>
       </div>
+      
+      <div style={{ backgroundColor: "#fff", border: "1px solid #e0f2fe", borderRadius: "10px", padding: "20px" }}>
+        <h2 style={{ fontSize: "16px", fontWeight: 700, color: "#002855", marginBottom: "16px" }}>
+          Most Performed Students
+          </h2>
+          
+          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
+            <thead>
+              <tr style={{ backgroundColor: "#e0f2fe" }}>
+                <th style={{ padding: "10px 12px", textAlign: "left", color: "#002855", fontWeight: 600 }}>#</th>
+                <th style={{ padding: "10px 12px", textAlign: "left", color: "#002855", fontWeight: 600 }}>Name</th>
+                <th style={{ padding: "10px 12px", textAlign: "left", color: "#002855", fontWeight: 600 }}>Email</th>
+                <th style={{ padding: "10px 12px", textAlign: "left", color: "#002855", fontWeight: 600 }}>Company</th>
+                <th style={{ padding: "10px 12px", textAlign: "left", color: "#002855", fontWeight: 600 }}>Performance Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { name: "Uwimana Alice", email: "uwimanaalice@gmail.com", company: "Andela Rwanda", status: "Excellent" },
+                    { name: "Habimana Jean", email: "habimanajean@gmail.com", company: "MTN Rwanda", status: "Excellent" },
+                    { name: "Mukamana Grace", email: "mukamanagrace@gmail.com", company: "BK TechHouse", status: "Excellent" },
+                    { name: "Ikuzwe Chelsea", email: "ikuzwechelsea@gmail.com", company: "EdTech Solution", status: "Excellent"},
+                    { name: "Ishimwe Kevin", email: "kevinishimwe@gmail.com", company: "Top Solution", status: "Excellent"},
+                    { name: "Gasinge K Jane", email: "kjane@gmail.com", company: "N@tcom", status: "Very Good"},
+                    { name: "Niyonzima Eric", email: "niyonzimaeric@gmail.com", company: "Irembo Ltd", status: "Very Good" },
+                    { name: "Uwineza Sandra", email: "uwinezasandra@gmail.com", company: "RwandaOnline", status: "Very Good" },
+                    { name: "Uwamahoro Kellia", email: "uwamahorokellia@gmail.com", company: "Future Generation", status: "Very Good" },
+                    { name: "Ineza Sandra", email: "inezasandra@gmail.com", company: "RDB", status: "Very Good" },
+                  ].map((student, i) => (
+                  <tr key={i} style={{ borderBottom: "1px solid #f0f0f0", backgroundColor: i % 2 === 0 ? "#fff" : "#f9fafb" }}>
+                    <td style={{ padding: "10px 12px", color: "#666" }}>{i + 1}</td>
+                    <td style={{ padding: "10px 12px", color: "#002855", fontWeight: 600 }}>{student.name}</td>
+                    <td style={{ padding: "10px 12px", color: "#666" }}>{student.email}</td>
+                    <td style={{ padding: "10px 12px", color: "#444" }}>{student.company}</td>
+                    <td style={{ padding: "10px 12px" }}>
+                      <span style={{padding: "3px 10px", borderRadius: "20px", fontSize: "12px", fontWeight: 600, backgroundColor: student.status === "Excellent" ? "#dcfce7" : student.status === "Very Good" ? "#e0f2fe" : "#fef9c3", color: student.status === "Excellent" ? "#166534" : student.status === "Very Good" ? "#0369a1" : "#854d0e"}}>
+                        {student.status}
+                        </span>
+                        </td>
+                        </tr>
+                       ))}
+                       </tbody>
+                       </table>
+                       </div>
 
-      <div style={{ backgroundColor: "#fff", border: `1px solid ${LIGHT_SKY}`, borderRadius: "10px", padding: "20px", textAlign: "center", color: "#888" }}>
-        <p style={{ margin: 0, fontSize: "14px" }}>Most performed students</p>
-      </div>
-    </div>
+                       </div>
   );
 }

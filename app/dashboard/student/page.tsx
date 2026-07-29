@@ -13,16 +13,29 @@ interface StudentProfile {
   level: string;
   school_name: string;
 }
+const DARK_BLUE = "#002855";
+const SKY_BLUE = "#00b4d8";
+const LIGHT_SKY = "#e0f2fe";
+
+const recentApplications = [
+  { title: "Frontend Developer Intern", company: "Zora Tech", status: "Accepted", date: "2026-07-28" },
+  { title: "Site Audit Intern", company: "Igihozo Technologies", status: "Pending", date: "2026-07-25" },
+  { title: "Network Support Intern", company: "Linknet Rwanda", status: "Rejected", date: "2026-07-20" },
+];
+
+const STATUS_STYLES: Record<string, { bg: string; color: string }> = {
+  Pending: { bg: "#fff8e1", color: "#a06a00" },
+  Accepted: { bg: "#e6f7ee", color: "#1a7f4e" },
+  Rejected: { bg: "#ffebee", color: "#c62828" },
+};
+
+
 
 export default function StudentDashboardPage() {
   const router = useRouter();
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  const DARK_BLUE = "#002855";
-  const SKY_BLUE = "#00b4d8";
-  const LIGHT_SKY = "#e0f2fe";
 
   useEffect(() => {
     getStudentProfile()
@@ -87,8 +100,23 @@ export default function StudentDashboardPage() {
         </div>
       </div>
 
-      <div style={{ backgroundColor: "#fff", border: `1px solid ${LIGHT_SKY}`, borderRadius: "10px", padding: "20px", textAlign: "center", color: "#888" }}>
-        <p style={{ margin: 0, fontSize: "14px" }}>Recommended internships will appear here once available.</p>
+      {/* RECENT APPLICATIONS */}
+      <h2 style={{ fontSize: "16px", fontWeight: 700, color: DARK_BLUE, margin: "0 0 12px" }}>Recent applications</h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {recentApplications.map((app) => {
+          const style = STATUS_STYLES[app.status];
+          return (
+            <div key={app.title} style={{ backgroundColor: "#fff", border: `1px solid ${LIGHT_SKY}`, borderRadius: "10px", padding: "14px 20px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <p style={{ fontSize: "14px", fontWeight: 700, color: DARK_BLUE, margin: "0 0 2px" }}>{app.title}</p>
+                <p style={{ fontSize: "12px", color: "#666", margin: 0 }}>{app.company} · {app.date}</p>
+              </div>
+              <span style={{ fontSize: "12px", fontWeight: 600, padding: "5px 12px", borderRadius: "20px", backgroundColor: style.bg, color: style.color }}>
+                {app.status}
+              </span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

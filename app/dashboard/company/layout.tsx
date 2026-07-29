@@ -9,7 +9,7 @@ const SKY_BLUE = "#00b4d8";
 const SIDENAV_ITEMS = [
     { label: "Dashboard", href: "/dashboard/company", icon: LayoutDashboard },
     { label: "Posting Internship", href: "/dashboard/company/internship", icon: FilePlus},
-    { label: "Management", href: "/dashboard/company/notification", icon: Users},
+    { label: "Management", href: "/dashboard/company/management", icon: Users},
     { label: "Profile", href: "/dashboard/company/profile", icon: User },
 ]
 
