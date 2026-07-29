@@ -1,14 +1,14 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard,  User, Search, FileText, Bell, BarChart3, GraduationCap, LogOut } from "lucide-react";
+import { LayoutDashboard,  User, Search, FileText, Bell, BarChart3, GraduationCap, LogOut, FileTextIcon } from "lucide-react";
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
 
 const SIDENAV_ITEMS = [
     { label: "Dashboard", href: "/dashboard/supervisor", icon: LayoutDashboard },
-    { label: "Notification", href: "/dashboard/supervisor/notification", icon: Bell},
+    { label: "Student List", href: "/dashboard/supervisor/studentlist", icon: FileTextIcon },
     { label: "Profile", href: "/dashboard/supervisor/profile", icon: User },
 ]
 

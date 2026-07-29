@@ -56,8 +56,8 @@ export default function SupervisorDashboardPage() {
 
   // Stats cards
   const stats = {
-    applicationsSent: 0,
-    accepted: 0,
+    studentNumber: 150,
+    companies: 30,
     pending: 0,
   };
 
@@ -72,12 +72,12 @@ export default function SupervisorDashboardPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "32px" }}>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Applications sent</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.applicationsSent}</p>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Student Number</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.studentNumber}</p>
         </div>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Accepted</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.accepted}</p>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Partner Companies</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.companies}</p>
         </div>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
           <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Pending</p>
@@ -86,7 +86,7 @@ export default function SupervisorDashboardPage() {
       </div>
 
       <div style={{ backgroundColor: "#fff", border: `1px solid ${LIGHT_SKY}`, borderRadius: "10px", padding: "20px", textAlign: "center", color: "#888" }}>
-        <p style={{ margin: 0, fontSize: "14px" }}>Recommended internships will appear here once available.</p>
+        <p style={{ margin: 0, fontSize: "14px" }}>Most performed students</p>
       </div>
     </div>
   );

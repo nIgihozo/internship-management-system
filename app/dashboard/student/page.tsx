@@ -58,9 +58,9 @@ export default function StudentDashboardPage() {
 
   // Stats cards
   const stats = {
-    applicationsSent: 0,
-    accepted: 0,
-    pending: 0,
+    applicationsSent: 5,
+    accepted: 2,
+    pending: 3,
   };
 
   return (
@@ -77,11 +77,11 @@ export default function StudentDashboardPage() {
           <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Applications sent</p>
           <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.applicationsSent}</p>
         </div>
-        <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
+        <div style={{ backgroundColor: "lightgreen", borderRadius: "10px", padding: "16px" }}>
           <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Accepted</p>
           <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.accepted}</p>
         </div>
-        <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
+        <div style={{ backgroundColor: "orange", borderRadius: "10px", padding: "16px" }}>
           <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Pending</p>
           <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.pending}</p>
         </div>

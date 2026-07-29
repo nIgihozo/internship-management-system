@@ -59,9 +59,10 @@ export default function CompanyDashboardPage() {
 
   // Stats cards
   const stats = {
-    applicationsSent: 0,
-    accepted: 0,
-    pending: 0,
+    postedApplication: 15,
+    applicantNumbers: 100,
+    viewedApplications: 60,
+    unviewedApplication: 40,
   };
 
   return (
@@ -75,16 +76,20 @@ export default function CompanyDashboardPage() {
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "32px" }}>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Applications sent</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.applicationsSent}</p>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Posted Application Numbers</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.postedApplication}</p>
         </div>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Accepted</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.accepted}</p>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Applicant Numbers</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.applicantNumbers}</p>
         </div>
         <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
-          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Pending</p>
-          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.pending}</p>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Viewed Applications</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.viewedApplications}</p>
+        </div>
+        <div style={{ backgroundColor: LIGHT_SKY, borderRadius: "10px", padding: "16px" }}>
+          <p style={{ fontSize: "13px", color: DARK_BLUE, margin: "0 0 4px", fontWeight: 600 }}>Unviewed Applications</p>
+          <p style={{ fontSize: "26px", fontWeight: 700, color: DARK_BLUE, margin: 0 }}>{stats.unviewedApplication}</p>
         </div>
       </div>
 
