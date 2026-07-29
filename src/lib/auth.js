@@ -227,3 +227,45 @@ export async function getMyApplications() {
     }
 
 }
+
+export async function getStudentSupervisor() {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("accessToken");
+    if (!token) throw new Error("NO_TOKEN");
+
+    try {
+        return await apiRequest('/supervisor/students/', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}`},
+        });
+    } catch (err) {
+        if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw new Error('FAILED_TO_FETCH')
+    }
+
+}
+
+export async function getCompanySupervisor() {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("accessToken");
+    if (!token) throw new Error("NO_TOKEN");
+
+    try {
+        return await apiRequest('/supervisor/companies/', {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}`},
+        });
+    } catch (err) {
+        if (err.status === 401) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('accessToken');
+
+        throw new Error('SESSION_EXPIRED');
+    }
+    throw new Error('FAILED_TO_FETCH')
+    }
+
+}
