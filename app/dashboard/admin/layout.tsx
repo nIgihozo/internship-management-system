@@ -1,14 +1,13 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Users, ShieldCheck, AlertTriangle, Activity, LogOut } from "lucide-react";
+import { LayoutDashboard, Users, ShieldCheck, AlertTriangle, Activity, LogOut,  } from "lucide-react";
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
 
 const NAV_ITEMS = [
     { label: "Dashboard", href: "/dashboard/admin", icon: LayoutDashboard },
-    { label: "Users & roles", href: "/dashboard/admin/users", icon: Users },
     { label: "Verify registrations", href: "/dashboard/admin/verify", icon: ShieldCheck },
     { label: "Disputes", href: "/dashboard/admin/disputes", icon: AlertTriangle },
     { label: "System activity", href: "/dashboard/admin/activity", icon: Activity },

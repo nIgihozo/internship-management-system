@@ -13,7 +13,7 @@ const SIDENAV_ITEMS = [
     { label: "Student Performances", href: "/dashboard/supervisor/performance", icon: TrendingUp},
     { label: "Partner Companies", href: "/dashboard/supervisor/companies", icon: Handshake },
     { label: "Profile", href: "/dashboard/supervisor/profile", icon: User },
-     { label: "Help & Support", href: "/dashboard/supervisor/help", icon: HelpCircle }
+    { label: "Help & Support", href: "/dashboard/supervisor/help", icon: HelpCircle }
     
 ]
 
