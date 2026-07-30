@@ -1,16 +1,17 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard,  User, Users, LogOut, FilePlus } from "lucide-react";
+import { LayoutDashboard,  User, Users, LogOut, FilePlus, HelpCircle } from "lucide-react";
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
 
 const SIDENAV_ITEMS = [
     { label: "Dashboard", href: "/dashboard/company", icon: LayoutDashboard },
-    { label: "Posting Internship", href: "/dashboard/company/internship", icon: FilePlus},
-    { label: "Management", href: "/dashboard/company/management", icon: Users},
+    { label: "Posting Internship", href: "/dashboard/company/internship", icon: FilePlus },
+    { label: "Management", href: "/dashboard/company/management", icon: Users },
     { label: "Profile", href: "/dashboard/company/profile", icon: User },
+    { label: "Help & Support", href: "/dashboard/company/help", icon: HelpCircle }
 ]
 
 export default function CompanyLayoutDashboard ({ children }: {children: React.ReactNode}) {

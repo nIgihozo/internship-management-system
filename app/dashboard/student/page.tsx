@@ -18,9 +18,11 @@ const SKY_BLUE = "#00b4d8";
 const LIGHT_SKY = "#e0f2fe";
 
 const recentApplications = [
-  { title: "Frontend Developer Intern", company: "Zora Tech", status: "Accepted", date: "2026-07-28" },
-  { title: "Site Audit Intern", company: "Igihozo Technologies", status: "Pending", date: "2026-07-25" },
-  { title: "Network Support Intern", company: "Linknet Rwanda", status: "Rejected", date: "2026-07-20" },
+  { title: "Frontend Developer Intern", company: "Xxx Tech", status: "Accepted", date: "2026-07-28" },
+  { title: "Site Audit Intern", company: "Igihozo Technologies", status: "Accepted", date: "2026-07-25" },
+  { title: "Network Support Intern", company: "Linknet Rwanda", status: "Pending", date: "2026-07-20" },
+  { title: "IT Support Intern", company: "ThinkNet Rwanda", status: "Pending", date: "2026-07-19" },
+  { title: "UI/UX Intern", company: "SkyNet Rwanda", status: "Pending", date: "2026-07-15" },
 ];
 
 const STATUS_STYLES: Record<string, { bg: string; color: string }> = {

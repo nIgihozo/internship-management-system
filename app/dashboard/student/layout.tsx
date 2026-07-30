@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard,  User, Search, FileText, Bell, BarChart3, GraduationCap, LogOut } from "lucide-react";
+import { LayoutDashboard,  User, Search, FileText, Bell, BarChart3, GraduationCap, LogOut, HelpCircle } from "lucide-react";
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
@@ -14,6 +14,7 @@ const SIDENAV_ITEMS = [
     { label: "Certificate", href: "/dashboard/student/certificate", icon: GraduationCap},
     { label: "Notification", href: "/dashboard/student/notification", icon: Bell},
     { label: "Profile", href: "/dashboard/student/profile", icon: User },
+    { label: "Help & Support", href: "/dashboard/student/help", icon: HelpCircle }
 ]
 
 export default function StudentLayoutDashboard ({ children }: {children: React.ReactNode}) {

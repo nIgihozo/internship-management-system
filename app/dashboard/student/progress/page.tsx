@@ -5,9 +5,9 @@ const SKY_BLUE = "#00b4d8";
 const LIGHT_SKY = "#e0f2fe";
 
 const weeklyReports = [
-  { week: "Week 3", attendance: "5/5 days", tasks: "Completed site inspection checklist, reviewed safety protocols with team.", grade: "A", status: "Excellent" },
-  { week: "Week 2", attendance: "4/5 days", tasks: "Assisted with project blueprint review, attended OSHA safety training.", grade: "B+", status: "Very Good" },
-  { week: "Week 1", attendance: "5/5 days", tasks: "Onboarding, introduced to team and daily site operations.", grade: "B", status: "Good" },
+  { week: "Week 3", attendance: "5/5 days", tasks: "Completed site inspection checklist, reviewed safety protocols with team.", status: "Excellent" },
+  { week: "Week 2", attendance: "4/5 days", tasks: "Assisted with project blueprint review, attended OSHA safety training.", status: "Very Good" },
+  { week: "Week 1", attendance: "5/5 days", tasks: "Onboarding, introduced to team and daily site operations.", status: "Good" },
 ];
 
 const currentPerformance = "Very Good";
@@ -50,7 +50,7 @@ export default function ProgressPage() {
                   {report.status}
                 </span>
               </div>
-              <p style={{ fontSize: "13px", color: "#666", margin: "0 0 6px" }}>Attendance: {report.attendance} · Grade: {report.grade}</p>
+              <p style={{ fontSize: "13px", color: "#666", margin: "0 0 6px" }}>Attendance: {report.attendance}</p>
               <p style={{ fontSize: "13px", color: "#444", margin: 0, lineHeight: 1.5 }}>{report.tasks}</p>
             </div>
           );

@@ -109,7 +109,69 @@ export default function Home() {
                         </Link>
                     </div>
                 </div>  
-            </section>  
+            </section> 
+            {/* Documentation Section */}
+<section style={{ padding: "80px 8%", backgroundColor: "#ffffff" }}>
+    <div style={{ textAlign: "center", marginBottom: "40px" }}>
+        <h2 style={{ fontSize: "18px", color: DARK_BLUE, fontWeight: "700" }}>
+            Resources & Documentation
+        </h2>
+        <p style={{ color: "#999", fontSize: "16px", marginTop: "8px" }}>
+            Everything you need to get started on the platform
+        </p>
+    </div>
+
+    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "24px", maxWidth: "1000px", margin: "0 auto" }}>
+
+        {/* FAQ Card */}
+        <div style={{ backgroundColor: "#f8fafc", padding: "28px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+            <h3 style={{ fontSize: "17px", color: DARK_BLUE, marginBottom: "10px", fontWeight: "700" }}>
+                Frequently Asked Questions
+            </h3>
+            <p style={{ color: "#555", lineHeight: "1.5", marginBottom: "20px", fontSize: "14px" }}>
+                Answers to common questions for students, supervisors, and companies. Available inside your dashboard once logged in.
+            </p>
+            <Link href="/login" style={{ color: SKY_BLUE, fontWeight: "bold", textDecoration: "none", fontSize: "14px" }}>
+                Log in to view FAQs →
+            </Link>
+        </div>
+
+        {/* Video Tutorial Card */}
+        <div style={{ backgroundColor: "#f8fafc", padding: "28px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+            <h3 style={{ fontSize: "17px", color: DARK_BLUE, marginBottom: "10px", fontWeight: "700" }}>
+                Video Tutorial
+            </h3>
+            <p style={{ color: "#555", lineHeight: "1.5", marginBottom: "20px", fontSize: "14px" }}>
+                A short walkthrough showing first-time users how to navigate the platform.
+            </p>
+            <a href="/tutorial.mp4" target="_blank" rel="noopener noreferrer" style={{ color: SKY_BLUE, fontWeight: "bold", textDecoration: "none", fontSize: "14px" }}>
+                Watch tutorial →
+            </a>
+        </div>
+
+        {/* User Manuals Card */}
+        <div style={{ backgroundColor: "#f8fafc", padding: "28px", borderRadius: "10px", border: "1px solid #e2e8f0" }}>
+            <h3 style={{ fontSize: "17px", color: DARK_BLUE, marginBottom: "10px", fontWeight: "700" }}>
+                User Manuals
+            </h3>
+            <p style={{ color: "#555", lineHeight: "1.5", marginBottom: "16px", fontSize: "14px" }}>
+                Step-by-step PDF guides for each role:
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <a href="/manuals/Student_User_Manual.pdf" target="_blank" rel="noopener noreferrer" style={{ color: SKY_BLUE, fontWeight: "600", textDecoration: "none", fontSize: "14px" }}>
+                    Student manual →
+                </a>
+                <a href="/manuals/Supervisor_User_Manual.pdf" target="_blank" rel="noopener noreferrer" style={{ color: SKY_BLUE, fontWeight: "600", textDecoration: "none", fontSize: "14px" }}>
+                    Supervisor manual →
+                </a>
+                <a href="/manuals/Company_User_Manual.pdf" target="_blank" rel="noopener noreferrer" style={{ color: SKY_BLUE, fontWeight: "600", textDecoration: "none", fontSize: "14px" }}>
+                    Company manual →
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section> 
             <footer style={{backgroundColor: DARK_BLUE, color: "#aaa", padding: "10px 2%", textAlign: "center", fontSize: "14px", borderTop: `1px solid rgba(0,0,0,0.1)`}}>
             <p>© {new Date().getFullYear()} Internship Management System. All right reserved</p>    
             </footer>   

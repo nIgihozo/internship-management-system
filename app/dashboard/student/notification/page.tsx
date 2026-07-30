@@ -10,6 +10,9 @@ const notifications = [
   { id: 1, type: "accepted", title: "Application accepted", message: "Your application for Frontend Developer Intern at Zora Tech has been accepted.", date: "2026-07-28" },
   { id: 2, type: "rejected", title: "Application update", message: "Your application for Network Support Intern at Linknet Rwanda was not selected this time.", date: "2026-07-25" },
   { id: 3, type: "info", title: "New internship posted", message: "A new opportunity matching Construction has been posted by Igihozo Technologies.", date: "2026-07-22" },
+  { id: 4, type: "rejected", title: "Application accepted", message: "Your application for UI/UX Intern at Bridge Tech has been not accepted.", date: "2026-07-21" },
+  { id: 5, type: "rejected", title: "Application update", message: "Your application for Network Support Intern at Gigix Group was not selected this time.", date: "2026-07-20" },
+  { id: 6, type: "info", title: "New internship posted", message: "A new opportunity matching Software Development has been posted by XYZ Technologies.", date: "2026-07-20" },
 ];
 
 const ICONS: Record<string, any> = {

@@ -35,7 +35,7 @@ export default function ManagementPage() {
   const [activeTab, setActiveTab] = useState<Tab>("applications");
   const [appList, setAppList] = useState(applications);
 
-  const [reportForm, setReportForm] = useState({ intern: "", attendance: "", tasks: "", grade: "", status: "" });
+  const [reportForm, setReportForm] = useState({ intern: "", attendance: "", tasks: "", description: "", grade: "", status: "" });
   const [reportSubmitted, setReportSubmitted] = useState(false);
 
   const [certList, setCertList] = useState(certificates);
@@ -48,7 +48,7 @@ export default function ManagementPage() {
     e.preventDefault();
     setReportSubmitted(true);
     setTimeout(() => setReportSubmitted(false), 3000);
-    setReportForm({ intern: "", attendance: "", tasks: "", grade: "", status: "" });
+    setReportForm({ intern: "", attendance: "", tasks: "", description: "", grade: "", status: "" });
   };
 
   const handleIssueCertificate = (id: number) => {
@@ -175,6 +175,11 @@ export default function ManagementPage() {
             <div style={{ marginBottom: "14px" }}>
               <label style={{ display: "block", marginBottom: "6px", fontWeight: 600, color: DARK_BLUE }}>Tasks completed</label>
               <textarea value={reportForm.tasks} onChange={(e) => setReportForm({ ...reportForm, tasks: e.target.value })} placeholder="Summarize this week's tasks" rows={3} required style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontFamily: "inherit" }} />
+            </div>
+
+            <div style={{ marginBottom: "14px" }}>
+              <label style={{ display: "block", marginBottom: "6px", fontWeight: 600, color: DARK_BLUE }}>FeedBack</label>
+              <textarea value={reportForm.description} onChange={(e) => setReportForm({ ...reportForm, tasks: e.target.value })} placeholder="Provide feedback on how student performed this week" rows={3} required style={{ width: "100%", padding: "12px", boxSizing: "border-box", borderRadius: "6px", border: `2px solid ${LIGHT_SKY}`, fontFamily: "inherit" }} />
             </div>
 
             <div style={{ marginBottom: "20px" }}>

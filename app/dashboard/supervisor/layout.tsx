@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard,  User, Handshake, LogOut, UsersRound } from "lucide-react";
+import { LayoutDashboard,  User, Handshake, LogOut, UsersRound, ClipboardList, TrendingUp, HelpCircle } from "lucide-react";
 
 const DARK_BLUE = "#002855";
 const SKY_BLUE = "#00b4d8";
@@ -9,8 +9,12 @@ const SKY_BLUE = "#00b4d8";
 const SIDENAV_ITEMS = [
     { label: "Dashboard", href: "/dashboard/supervisor", icon: LayoutDashboard },
     { label: "Students", href: "/dashboard/supervisor/student", icon: UsersRound },
+    { label: "Student Reports", href: "/dashboard/supervisor/reports", icon: ClipboardList},
+    { label: "Student Performances", href: "/dashboard/supervisor/performance", icon: TrendingUp},
     { label: "Partner Companies", href: "/dashboard/supervisor/companies", icon: Handshake },
     { label: "Profile", href: "/dashboard/supervisor/profile", icon: User },
+     { label: "Help & Support", href: "/dashboard/supervisor/help", icon: HelpCircle }
+    
 ]
 
 export default function SupervisorLayoutDashboard ({ children }: {children: React.ReactNode}) {
